@@ -1,8 +1,9 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 import codecs
-import pprint
+import re
 
 class Text(object):
 
@@ -17,9 +18,18 @@ class Text(object):
     for line in self.lines:
       print line
 
+  def find_pattern(self, pattern):
+    search = re.compile(pattern, re.UNICODE)
+    found = 0
+    for line in self.lines:
+      result = search.findall(line)
+      found += len(result)
+    return found
+
 
 if __name__ == '__main__':
   # Development Testing
   t = Text("texts/0.txt")
   t.parse_file()
   t.print_file_to_screen()
+  print t.find_pattern(u'е')
