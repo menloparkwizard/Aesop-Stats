@@ -11,6 +11,9 @@ class Text(object):
     self.filename = os.path.abspath(file)
     self.words    = []
 
+  def file(self):
+    return self.filename
+
   def parse_file(self):
     with codecs.open(filename=self.filename, mode='r', encoding='utf-8') as f:
       self.lines = f.read().strip().splitlines()
@@ -35,11 +38,11 @@ class Text(object):
     return found
 
   def find_word_final(self, pattern):
-    valid = re.compile(u"\w+{0}".format(pattern), re.UNICODE)
+    valid = re.compile(u"\w*{0}\s?\.?\,?\!?\??\s".format(pattern), re.UNICODE)
     valid_words = []
     for line in self.lines:
       result = valid.findall(line)
-      if(result is not None):
+      if(result is not None): # check for valid results, if findall() fails, result = None
         valid_words.extend(result)
     return valid_words
 
@@ -99,7 +102,7 @@ class Text(object):
 
 if __name__ == '__main__':
   # Development Testing
-  t = Text("texts/00.txt")
+  t = Text("texts/45.txt")
   t.parse_file()
   #t.print_file_to_screen()
   #print "Found: " + str(t.find_pattern(u'е')) + " of " + u'е'
@@ -109,7 +112,8 @@ if __name__ == '__main__':
   #print "Unique glyphs: " + str(len(t.unique_glyphs()))
   #print t.glyph_frequency()
   #print t.word_frequency()
-  wf_match = t.find_word_final(u"ом")
+  #wf_match = t.find_word_final(u"ф")
+  wf_match = t.find_word_final(u"м")
   for m in wf_match:
     print m
   #print wf_match
