@@ -19,6 +19,9 @@ class Text(object):
       if line.strip(): # remove blank lines
         self.words.extend(line.split(' '))
 
+  def word_count(self):
+    return len(self.words)
+
   def print_file_to_screen(self):
     for line in self.lines:
       print line
@@ -30,6 +33,15 @@ class Text(object):
       result = search.findall(line)
       found += len(result)
     return found
+
+  def find_word_final(self, pattern):
+    valid = re.compile(u"\w+{0}".format(pattern), re.UNICODE)
+    valid_words = []
+    for line in self.lines:
+      result = valid.findall(line)
+      if(result is not None):
+        valid_words.extend(result)
+    return valid_words
 
   def count_glyphs(self):
     num_glyphs = 0
@@ -87,14 +99,19 @@ class Text(object):
 
 if __name__ == '__main__':
   # Development Testing
-  t = Text("texts/0.txt")
+  t = Text("texts/00.txt")
   t.parse_file()
-  t.print_file_to_screen()
-  print "Found: " + str(t.find_pattern(u'е')) + " of " + u'е'
-  print "Counted: " + str(t.count_glyphs()) + " glyphs"
-  print "Words: " + str(t.count_words())
-  print "Unique words: " + str(len(t.unique_words()))
-  print "Unique glyphs: " + str(len(t.unique_glyphs()))
-  print t.glyph_frequency()
-  print t.word_frequency()
+  #t.print_file_to_screen()
+  #print "Found: " + str(t.find_pattern(u'е')) + " of " + u'е'
+  #print "Counted: " + str(t.count_glyphs()) + " glyphs"
+  #print "Words: " + str(t.count_words())
+  #print "Unique words: " + str(len(t.unique_words()))
+  #print "Unique glyphs: " + str(len(t.unique_glyphs()))
+  #print t.glyph_frequency()
+  #print t.word_frequency()
+  wf_match = t.find_word_final(u"ом")
+  for m in wf_match:
+    print m
+  #print wf_match
+  print "Found: " + str(len(wf_match)) + " words out of " + str(t.word_count())
 
