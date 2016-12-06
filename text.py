@@ -38,7 +38,7 @@ class Text(object):
     return found
 
   def find_word_final(self, pattern):
-    valid = re.compile(u"\w*{0}\s?\.?\,?\!?\??\s".format(pattern), re.UNICODE)
+    valid = re.compile(u"\w{2,}"+pattern+u"\s?\.?\,?\!?\??\s", re.UNICODE)
     valid_words = []
     for line in self.lines:
       result = valid.findall(line)
@@ -113,7 +113,7 @@ if __name__ == '__main__':
   #print t.glyph_frequency()
   #print t.word_frequency()
   #wf_match = t.find_word_final(u"ф")
-  wf_match = t.find_word_final(u"м")
+  wf_match = t.find_word_final(u"г")
   for m in wf_match:
     print m
   #print wf_match
